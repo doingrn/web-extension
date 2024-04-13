@@ -1,5 +1,6 @@
 import { readdir } from 'node:fs/promises';
 import type { ActivityData } from '@/lib/activities/types';
+import type { ManifestV3Export } from '@crxjs/vite-plugin';
 
 const supportedWebsitesBasePath = './src/lib/activities/services';
 const supportedWebsites = await readdir(supportedWebsitesBasePath);
@@ -14,7 +15,7 @@ async function loadActivityData(website: string) {
 
 const activitiesContentScripts = [];
 
-// Load all activities listed in ./src/lib/activities/websites
+// Load all activities listed in ./src/lib/activities/services
 for (const website of supportedWebsites) {
   activitiesContentScripts.push({
     js: [`${supportedWebsitesBasePath}/${website}/activity.ts`],
@@ -30,4 +31,4 @@ export default {
   action: { default_popup: 'index.html' },
   permissions: ['scripting', 'tabs'],
   content_scripts: activitiesContentScripts
-};
+} as ManifestV3Export;

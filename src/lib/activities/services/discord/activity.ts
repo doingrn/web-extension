@@ -1,1 +1,1 @@
-alert('Only runs on discord.com')
+alert('Only runs on discord.com');
