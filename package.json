@@ -1,0 +1,37 @@
+{
+  "name": "@doingrn/extension",
+  "version": "1.0.0",
+  "description": "The Chrome extension for DoingRN",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "biome check .",
+    "format": "biome check --apply .",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "Davi Patricio <davipatricio@pm.me>",
+  "license": "MIT",
+  "dependencies": {
+    "@tailwindcss/vite": "4.0.0-alpha.14",
+    "clsx": "^2.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.2.2",
+    "tailwindcss": "4.0.0-alpha.14"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.6.4",
+    "@crxjs/vite-plugin": "2.0.0-beta.23",
+    "@types/chrome": "^0.0.266",
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.2.78",
+    "@types/react-dom": "^18.2.25",
+    "@vitejs/plugin-react-swc": "^3.6.0",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.8",
+    "vite-tsconfig-paths": "^4.3.2"
+  },
+  "packageManager": "pnpm@8.15.6"
+}
