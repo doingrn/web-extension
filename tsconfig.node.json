@@ -12,5 +12,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["vite.config.ts", "manifest.ts", "./src/lib/activities/types.ts"]
+  "include": ["vite.config.ts", "manifest.ts"]
 }
