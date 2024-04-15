@@ -1,7 +1,7 @@
 {
-  "name": "@doingrn/extension",
+  "name": "@doingrn/web-extension",
   "version": "1.0.0",
-  "description": "The Chrome extension for DoingRN",
+  "description": "The web extension for DoingRN",
   "type": "module",
   "scripts": {
     "dev": "vite",
