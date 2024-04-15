@@ -17,4 +17,11 @@ export class ActivityEvent<Event extends BaseActivityEvent = BaseActivityEvent> 
     this.d = data;
     return this;
   }
+
+  toJSON() {
+    return {
+      t: this.t,
+      d: this.d
+    };
+  }
 }
