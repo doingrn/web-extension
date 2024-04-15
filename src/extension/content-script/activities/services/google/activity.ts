@@ -1,27 +1,41 @@
 import { ActivityEvent } from '@/extension/background/activity-event';
-import type { UpdateActivityEvent } from '@/extension/background/activity-event/events';
+import type { ClearActivityEvent, UpdateActivityEvent } from '@/extension/background/activity-event/events';
 import { sendManagerMessage } from '@/extension/content-script/utils/send-manager-message';
 import { Presence, PresenceType } from '@/extension/shared/presence';
 import { parseQuerystring } from '@/extension/shared/utils/querystring';
+import { metadata } from './metadata';
 
-const ALLOWED_WEBSITES = [
-  /https:\/\/www\.google\.com\/search\?q=.*$/,
-  /https:\/\/www\.google\.[a-z]{2}\/search\?q=.*$/,
-  /https:\/\/www\.google\.com\.[a-z]{2}\/search\?q=.*$/
-];
+const presence = new Presence(metadata.clientId, {
+  name: metadata.name,
+  type: PresenceType.GAME,
+  largeImageKey: metadata.images.googleLogo,
+  startTimestamp: Date.now()
+});
+
+async function clearActivity() {
+  sendManagerMessage(new ActivityEvent<ClearActivityEvent>('clear_activity', { name: metadata.name, clientId: presence.clientId }));
+}
 
 async function runActivity() {
-  // check if location.href matches ALLOWED_WEBSITES
-  if (!ALLOWED_WEBSITES.some((website) => website.test(location.href))) return;
+  // check if location.href matches metadata.supportedWebsites
+  if (!metadata.supportedWebsites.some((website) => website.test(location.href))) return;
 
-  let presence = new Presence('123', { name: 'google', type: PresenceType.GAME });
-  sendManagerMessage(new ActivityEvent<UpdateActivityEvent>('update_activity', { name: 'google', presence }));
+  window.addEventListener('beforeunload', () => {
+    clearActivity();
+  });
 
   const queryString = parseQuerystring(location.href) as { q: string };
-  if (!queryString.q) return;
+  if (!queryString.q) {
+    sendManagerMessage(
+      new ActivityEvent<UpdateActivityEvent>('update_activity', { name: metadata.name, clientId: presence.clientId, presence })
+    );
+    return;
+  }
 
-  presence = new Presence('123', { name: 'google', type: PresenceType.GAME, state: `Searching for ${queryString.q}` });
-  sendManagerMessage(new ActivityEvent<UpdateActivityEvent>('update_activity', { name: 'google', presence }));
+  presence.setState(`Searching for ${queryString.q}`);
+  sendManagerMessage(
+    new ActivityEvent<UpdateActivityEvent>('update_activity', { name: metadata.name, clientId: presence.clientId, presence })
+  );
 }
 
 runActivity();
