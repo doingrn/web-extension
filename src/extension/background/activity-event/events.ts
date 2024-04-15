@@ -12,9 +12,17 @@ export interface BaseActivityEvent {
 
 export interface UpdateActivityEventPayload {
   name: string;
+  clientId: string;
   presence: Presence;
 }
 
 export type UpdateActivityEvent = ActivityEvent<{ t: 'update_activity'; d: UpdateActivityEventPayload }>;
 
-export type AllActivityEvents = UpdateActivityEvent;
+export interface ClearActivityEventPayload {
+  name: string;
+  clientId: string;
+}
+
+export type ClearActivityEvent = ActivityEvent<{ t: 'clear_activity'; d: ClearActivityEventPayload }>;
+
+export type AllActivityEvents = UpdateActivityEvent | ClearActivityEvent;
