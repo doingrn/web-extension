@@ -7,8 +7,13 @@ chrome.runtime.onConnect.addListener((port) => {
   if (port.name !== 'doingrn') return;
 
   port.onMessage.addListener((request: AllActivityEvents | ActivityEvent) => {
-    // console.log(request)
-    ws.send(JSON.stringify(request instanceof ActivityEvent ? request.toJSON() : request));
+    switch (request.t) {
+      case 'register_activity':
+        console.log('[TODO] Handle register activity event');
+        break;
+      default:
+        ws.send(JSON.stringify(request instanceof ActivityEvent ? request.toJSON() : request));
+    }
   });
 });
 
