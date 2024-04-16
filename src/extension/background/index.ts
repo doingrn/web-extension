@@ -7,6 +7,8 @@ chrome.runtime.onConnect.addListener((port) => {
   if (port.name !== 'doingrn') return;
 
   port.onMessage.addListener((request: AllActivityEvents | ActivityEvent) => {
+    console.log(request);
+
     switch (request.t) {
       case 'register_activity':
         console.log('[TODO] Handle register activity event');
