@@ -1,6 +1,6 @@
-import { ActivityEvent } from '@/extension/background/activity-event';
-import type { UpdateActivityEvent } from '@/extension/background/activity-event/events';
 import { sendManagerMessage } from '@/extension/content-script/utils/send-manager-message';
+import { ActivityEvent } from '@/extension/shared/activity-event';
+import type { UpdateActivityEvent } from '@/extension/shared/activity-event/events';
 import type { Presence } from '@/extension/shared/presence';
 import { parseQuerystring } from '@/extension/shared/utils/querystring';
 

@@ -1,5 +1,5 @@
-import { ActivityEvent } from './activity-event';
-import type { AllActivityEvents } from './activity-event/events';
+import { ActivityEvent } from '../shared/activity-event';
+import type { AllActivityEvents } from '../shared/activity-event/events';
 
 let ws: WebSocket;
 

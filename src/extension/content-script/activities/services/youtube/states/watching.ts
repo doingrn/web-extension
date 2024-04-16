@@ -1,6 +1,6 @@
-import { ActivityEvent } from '@/extension/background/activity-event';
-import type { UpdateActivityEvent } from '@/extension/background/activity-event/events';
 import { sendManagerMessage } from '@/extension/content-script/utils/send-manager-message';
+import { ActivityEvent } from '@/extension/shared/activity-event';
+import type { UpdateActivityEvent } from '@/extension/shared/activity-event/events';
 import type { Presence } from '@/extension/shared/presence';
 import { timeToMs } from '@/extension/shared/utils/time-to-ms';
 
@@ -39,9 +39,7 @@ export const handleWatchingState = (presence: Presence) => {
     presence.setButtons(buttons).setEndTimestamp(Date.now() + timeToMs(videoDuration, 'mm:ss'));
 
     // ytp-time-duration
-    sendManagerMessage(
-      new ActivityEvent<UpdateActivityEvent>('update_activity', { clientId: presence.clientId, presence })
-    );
+    sendManagerMessage(new ActivityEvent<UpdateActivityEvent>('update_activity', { clientId: presence.clientId, presence }));
   });
 
   observer.observe(target, { childList: true, subtree: true });
