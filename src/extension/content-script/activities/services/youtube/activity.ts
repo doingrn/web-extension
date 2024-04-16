@@ -7,14 +7,13 @@ import { handleSearchState } from './states/searching';
 import { handleWatchingState } from './states/watching';
 
 const presence = new Presence(metadata.clientId, {
-  name: metadata.name,
   type: PresenceType.WATCHING,
   largeImageKey: metadata.images.youtubeLogo,
   startTimestamp: Date.now()
 });
 
 async function clearActivity() {
-  sendManagerMessage(new ActivityEvent<ClearActivityEvent>('clear_activity', { name: metadata.name, clientId: presence.clientId }));
+  sendManagerMessage(new ActivityEvent<ClearActivityEvent>('clear_activity', { clientId: presence.clientId }));
 }
 
 async function runActivity() {

@@ -3,7 +3,6 @@ import type { UpdateActivityEvent } from '@/extension/background/activity-event/
 import { sendManagerMessage } from '@/extension/content-script/utils/send-manager-message';
 import type { Presence } from '@/extension/shared/presence';
 import { timeToMs } from '@/extension/shared/utils/time-to-ms';
-import { metadata } from '../metadata';
 
 let lastVideoUrl = '';
 
@@ -41,7 +40,7 @@ export const handleWatchingState = (presence: Presence) => {
 
     // ytp-time-duration
     sendManagerMessage(
-      new ActivityEvent<UpdateActivityEvent>('update_activity', { name: metadata.name, clientId: presence.clientId, presence })
+      new ActivityEvent<UpdateActivityEvent>('update_activity', { clientId: presence.clientId, presence })
     );
   });
 

@@ -1,5 +1,4 @@
 export const metadata = {
-  name: 'google',
   clientId: '1229420473813700608',
   supportedWebsites: [
     /https:\/\/www\.google\.com\/search\?q=.*$/,

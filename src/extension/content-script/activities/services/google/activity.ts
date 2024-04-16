@@ -6,14 +6,13 @@ import { parseQuerystring } from '@/extension/shared/utils/querystring';
 import { metadata } from './metadata';
 
 const presence = new Presence(metadata.clientId, {
-  name: metadata.name,
   type: PresenceType.GAME,
   largeImageKey: metadata.images.googleLogo,
   startTimestamp: Date.now()
 });
 
 async function clearActivity() {
-  sendManagerMessage(new ActivityEvent<ClearActivityEvent>('clear_activity', { name: metadata.name, clientId: presence.clientId }));
+  sendManagerMessage(new ActivityEvent<ClearActivityEvent>('clear_activity', { clientId: presence.clientId }));
 }
 
 async function runActivity() {
@@ -27,14 +26,14 @@ async function runActivity() {
   const queryString = parseQuerystring(location.href) as { q: string };
   if (!queryString.q) {
     sendManagerMessage(
-      new ActivityEvent<UpdateActivityEvent>('update_activity', { name: metadata.name, clientId: presence.clientId, presence })
+      new ActivityEvent<UpdateActivityEvent>('update_activity', { clientId: presence.clientId, presence })
     );
     return;
   }
 
   presence.setDetails(`Searching for ${queryString.q}`);
   sendManagerMessage(
-    new ActivityEvent<UpdateActivityEvent>('update_activity', { name: metadata.name, clientId: presence.clientId, presence })
+    new ActivityEvent<UpdateActivityEvent>('update_activity', { clientId: presence.clientId, presence })
   );
 }
 

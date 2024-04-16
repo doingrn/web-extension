@@ -10,7 +10,6 @@ interface PresenceButton {
 }
 
 export class Presence {
-  public name = 'DoingRN';
   public type: PresenceType = PresenceType.GAME;
   public buttons?: PresenceButton[] = undefined;
   public details?: string;
@@ -29,11 +28,6 @@ export class Presence {
   ) {
     if (options) Object.assign(this, options);
     return;
-  }
-
-  setName(name: string) {
-    this.name = name;
-    return this;
   }
 
   setType(type: PresenceType) {
@@ -83,7 +77,6 @@ export class Presence {
 
   toJSON() {
     return {
-      name: this.name,
       type: this.type,
       buttons: this.buttons,
       details: this.details,

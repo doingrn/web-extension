@@ -1,5 +1,4 @@
 export const metadata = {
-  name: 'youtube',
   clientId: '1229545232656371813',
   supportedWebsites: [
     /https:\/\/www\.youtube\.com\/search\?q=.*$/,
