@@ -13,6 +13,10 @@ interface PresenceButton {
   url: string;
 }
 
+interface Metadata {
+  supportedWebsites: RegExp[];
+}
+
 export class Presence {
   public type: PresenceType = PresenceType.GAME;
   public buttons?: PresenceButton[] = undefined;
@@ -25,12 +29,14 @@ export class Presence {
   public endTimestamp?: number;
 
   protected largeImageText = '🐧 doignrn | 0.0.1';
+  private metadata: Metadata;
 
   constructor(
     public readonly clientId: string,
-    options?: Partial<Presence>
+    options: Partial<Presence> & { metadata: Metadata }
   ) {
-    if (options) Object.assign(this, options);
+    Object.assign(this, { ...options, metadata: undefined });
+    this.metadata = options.metadata;
 
     sendManagerMessage(
       new ActivityEvent<RegisterActivityEvent>('register_activity', {
@@ -38,10 +44,6 @@ export class Presence {
         icon: this.largeImageKey
       })
     );
-
-    window.addEventListener('beforeunload', () => {
-      this.clearActivity();
-    });
   }
 
   send() {
@@ -51,6 +53,19 @@ export class Presence {
         presence: this
       })
     );
+  }
+
+  on(event: 'update', callback: () => void) {
+    if (event === 'update') {
+      // if presence supports current website, run the activity
+      if (!this.metadata.supportedWebsites.some((website) => website.test(location.href))) {
+        window.addEventListener('beforeunload', () => {
+          this.clearActivity();
+        });
+
+        callback();
+      }
+    }
   }
 
   setType(type: PresenceType) {
