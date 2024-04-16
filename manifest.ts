@@ -12,6 +12,7 @@ export default {
   content_scripts: [
     {
       js: ['src/extension/content-script/index.ts'],
+      run_at: 'document_end',
       matches: ['https://*/*', 'http://*/*', '<all_urls>']
     }
   ]

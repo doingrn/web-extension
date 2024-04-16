@@ -32,7 +32,7 @@ async function runActivity() {
     return;
   }
 
-  presence.setState(`Searching for ${queryString.q}`);
+  presence.setDetails(`Searching for ${queryString.q}`);
   sendManagerMessage(
     new ActivityEvent<UpdateActivityEvent>('update_activity', { name: metadata.name, clientId: presence.clientId, presence })
   );
