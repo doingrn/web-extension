@@ -1,6 +1,3 @@
-import { sendManagerMessage } from '@/extension/content-script/utils/send-manager-message';
-import { ActivityEvent } from '@/extension/shared/activity-event';
-import type { UpdateActivityEvent } from '@/extension/shared/activity-event/events';
 import type { Presence } from '@/extension/shared/presence';
 import { timeToMs } from '@/extension/shared/utils/time-to-ms';
 
@@ -22,24 +19,23 @@ export const handleWatchingState = (presence: Presence) => {
 
     if (!videoTitle || !channelName) return;
 
-    const buttons = [
-      {
-        label: 'Watch on YouTube',
-        url: location.href
-      }
-    ];
-
-    if (channel)
-      buttons.push({
-        label: 'Visit Channel',
-        url: channel.href
-      });
-
-    presence.setState(channelName).setDetails(`Watching ${videoTitle}`);
-    presence.setButtons(buttons).setEndTimestamp(Date.now() + timeToMs(videoDuration, 'mm:ss'));
-
-    // ytp-time-duration
-    sendManagerMessage(new ActivityEvent<UpdateActivityEvent>('update_activity', { clientId: presence.clientId, presence }));
+    presence
+      .setButtons([
+        {
+          label: 'Watch on YouTube',
+          url: location.href
+        },
+        channel
+          ? {
+              label: 'Visit Channel',
+              url: channel.href
+            }
+          : undefined
+      ])
+      .setState(channelName)
+      .setDetails(`Watching ${videoTitle}`)
+      .setEndTimestamp(Date.now() + timeToMs(videoDuration, 'mm:ss'))
+      .send();
   });
 
   observer.observe(target, { childList: true, subtree: true });

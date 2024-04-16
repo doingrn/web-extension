@@ -9,6 +9,13 @@ export interface BaseActivityEvent {
   };
 }
 
+export interface RegisterActivityEventPayload {
+  clientId: string;
+  icon: string;
+}
+
+export type RegisterActivityEvent = ActivityEvent<{ t: 'register_activity'; d: RegisterActivityEventPayload }>;
+
 export interface UpdateActivityEventPayload {
   clientId: string;
   presence: Presence;

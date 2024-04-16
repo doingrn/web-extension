@@ -1,16 +1,9 @@
-import { sendManagerMessage } from '@/extension/content-script/utils/send-manager-message';
-import { ActivityEvent } from '@/extension/shared/activity-event';
-import type { ClearActivityEvent } from '@/extension/shared/activity-event/events';
 import { Presence, PresenceType } from '@/extension/shared/presence';
 import { metadata } from './metadata';
 import { handleSearchState } from './states/searching';
 import { handleWatchingState } from './states/watching';
 
 let presence: Presence | null = null;
-
-function clearActivity() {
-  if (presence) sendManagerMessage(new ActivityEvent<ClearActivityEvent>('clear_activity', { clientId: presence.clientId }));
-}
 
 async function runActivity() {
   // check if location.href matches metadata.supportedWebsites
@@ -20,10 +13,6 @@ async function runActivity() {
     type: PresenceType.WATCHING,
     largeImageKey: metadata.images.youtubeLogo,
     startTimestamp: Date.now()
-  });
-
-  window.addEventListener('beforeunload', () => {
-    clearActivity();
   });
 
   if (location.href.includes('/search')) return handleSearchState(presence);

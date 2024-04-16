@@ -1,3 +1,7 @@
+import { sendManagerMessage } from '../content-script/utils/send-manager-message';
+import { ActivityEvent } from './activity-event';
+import type { ClearActivityEvent, RegisterActivityEvent, UpdateActivityEvent } from './activity-event/events';
+
 export enum PresenceType {
   GAME = 0,
   LISTENING = 2,
@@ -27,7 +31,26 @@ export class Presence {
     options?: Partial<Presence>
   ) {
     if (options) Object.assign(this, options);
-    return;
+
+    sendManagerMessage(
+      new ActivityEvent<RegisterActivityEvent>('register_activity', {
+        clientId: this.clientId,
+        icon: this.largeImageKey
+      })
+    );
+
+    window.addEventListener('beforeunload', () => {
+      this.clearActivity();
+    });
+  }
+
+  send() {
+    sendManagerMessage(
+      new ActivityEvent<UpdateActivityEvent>('update_activity', {
+        clientId: this.clientId,
+        presence: this
+      })
+    );
   }
 
   setType(type: PresenceType) {
@@ -35,8 +58,8 @@ export class Presence {
     return this;
   }
 
-  setButtons(buttons?: PresenceButton[]) {
-    this.buttons = buttons;
+  setButtons(buttons?: (PresenceButton | undefined)[]) {
+    this.buttons = buttons?.filter((button) => typeof button !== 'undefined') as PresenceButton[];
     return this;
   }
 
@@ -88,5 +111,9 @@ export class Presence {
       smallImageKey: this.smallImageKey,
       smallImageText: this.smallImageText
     };
+  }
+
+  private clearActivity() {
+    sendManagerMessage(new ActivityEvent<ClearActivityEvent>('clear_activity', { clientId: this.clientId }));
   }
 }
