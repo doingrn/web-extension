@@ -2,11 +2,8 @@ import type { Presence } from '@/extension/shared/presence';
 import type { ActivityEvent } from '.';
 
 export interface BaseActivityEvent {
-  t: string;
-  d: {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    [key: string]: any;
-  };
+  t: AllActivityEvents['t'];
+  d: AllActivityEvents['d'];
 }
 
 export interface RegisterActivityEventPayload {
@@ -29,4 +26,4 @@ export interface ClearActivityEventPayload {
 
 export type ClearActivityEvent = ActivityEvent<{ t: 'clear_activity'; d: ClearActivityEventPayload }>;
 
-export type AllActivityEvents = UpdateActivityEvent | ClearActivityEvent;
+export type AllActivityEvents = UpdateActivityEvent | ClearActivityEvent | RegisterActivityEvent;
