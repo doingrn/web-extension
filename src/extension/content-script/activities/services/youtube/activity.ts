@@ -6,19 +6,21 @@ import { metadata } from './metadata';
 import { handleSearchState } from './states/searching';
 import { handleWatchingState } from './states/watching';
 
-const presence = new Presence(metadata.clientId, {
-  type: PresenceType.WATCHING,
-  largeImageKey: metadata.images.youtubeLogo,
-  startTimestamp: Date.now()
-});
+let presence: Presence | null = null;
 
-async function clearActivity() {
-  sendManagerMessage(new ActivityEvent<ClearActivityEvent>('clear_activity', { clientId: presence.clientId }));
+function clearActivity() {
+  if (presence) sendManagerMessage(new ActivityEvent<ClearActivityEvent>('clear_activity', { clientId: presence.clientId }));
 }
 
 async function runActivity() {
   // check if location.href matches metadata.supportedWebsites
   if (!metadata.supportedWebsites.some((website) => website.test(location.href))) return;
+
+  presence = new Presence(metadata.clientId, {
+    type: PresenceType.WATCHING,
+    largeImageKey: metadata.images.youtubeLogo,
+    startTimestamp: Date.now()
+  });
 
   window.addEventListener('beforeunload', () => {
     clearActivity();

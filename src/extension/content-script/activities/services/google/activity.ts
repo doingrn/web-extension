@@ -5,19 +5,21 @@ import { Presence, PresenceType } from '@/extension/shared/presence';
 import { parseQuerystring } from '@/extension/shared/utils/querystring';
 import { metadata } from './metadata';
 
-const presence = new Presence(metadata.clientId, {
-  type: PresenceType.GAME,
-  largeImageKey: metadata.images.googleLogo,
-  startTimestamp: Date.now()
-});
+let presence: Presence | null = null;
 
-async function clearActivity() {
-  sendManagerMessage(new ActivityEvent<ClearActivityEvent>('clear_activity', { clientId: presence.clientId }));
+function clearActivity() {
+  if (presence) sendManagerMessage(new ActivityEvent<ClearActivityEvent>('clear_activity', { clientId: presence.clientId }));
 }
 
 async function runActivity() {
   // check if location.href matches metadata.supportedWebsites
   if (!metadata.supportedWebsites.some((website) => website.test(location.href))) return;
+
+  presence = new Presence(metadata.clientId, {
+    type: PresenceType.GAME,
+    largeImageKey: metadata.images.googleLogo,
+    startTimestamp: Date.now()
+  });
 
   window.addEventListener('beforeunload', () => {
     clearActivity();
@@ -25,16 +27,12 @@ async function runActivity() {
 
   const queryString = parseQuerystring(location.href) as { q: string };
   if (!queryString.q) {
-    sendManagerMessage(
-      new ActivityEvent<UpdateActivityEvent>('update_activity', { clientId: presence.clientId, presence })
-    );
+    sendManagerMessage(new ActivityEvent<UpdateActivityEvent>('update_activity', { clientId: presence.clientId, presence }));
     return;
   }
 
   presence.setDetails(`Searching for ${queryString.q}`);
-  sendManagerMessage(
-    new ActivityEvent<UpdateActivityEvent>('update_activity', { clientId: presence.clientId, presence })
-  );
+  sendManagerMessage(new ActivityEvent<UpdateActivityEvent>('update_activity', { clientId: presence.clientId, presence }));
 }
 
 runActivity();
