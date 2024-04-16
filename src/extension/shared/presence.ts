@@ -58,7 +58,7 @@ export class Presence {
   on(event: 'update', callback: () => void) {
     if (event === 'update') {
       // if presence supports current website, run the activity
-      if (!this.metadata.supportedWebsites.some((website) => website.test(location.href))) {
+      if (this.metadata.supportedWebsites.some((website) => website.test(location.href))) {
         window.addEventListener('beforeunload', () => {
           this.clearActivity();
         });
