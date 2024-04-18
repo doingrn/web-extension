@@ -62,11 +62,20 @@ export class Presence {
           return website === location.href;
         })
       ) {
+        let oldUrl = '';
+
+        const interval = setInterval(() => {
+          if (oldUrl !== location.href) {
+            oldUrl = location.href;
+            callback();
+            console.log('callback')
+          }
+        }, 1000);
+
         window.addEventListener('beforeunload', () => {
           this.clearActivity();
+          clearInterval(interval);
         });
-
-        callback();
       }
     }
   }
