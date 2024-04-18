@@ -17,6 +17,7 @@ export class ActivityManager {
     this.portName = portName;
 
     this.setupActivityStorage();
+    this.setupWebsocket();
 
     chrome.runtime.onConnect.addListener((port) => {
       if (port.name !== this.portName) return;
@@ -31,7 +32,7 @@ export class ActivityManager {
             this.addActivityToStorage(request.d);
             break;
           default:
-            if (!this.ws) return;
+            if (!this.ws || this.ws.readyState !== this.ws.OPEN) return;
             this.ws.send(JSON.stringify(request instanceof ActivityEvent ? request.toJSON() : request));
         }
       });
