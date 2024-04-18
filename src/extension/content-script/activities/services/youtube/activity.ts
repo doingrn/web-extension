@@ -5,7 +5,7 @@ import { handleWatchingState } from './states/watching';
 
 const presence = new Presence(metadata.clientId, {
   type: PresenceType.WATCHING,
-  largeImageKey: metadata.images.youtubeLogo,
+  largeImageKey: metadata.images.main,
   startTimestamp: Date.now(),
   metadata
 });

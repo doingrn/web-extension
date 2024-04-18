@@ -4,7 +4,7 @@ import { metadata } from './metadata';
 
 const presence = new Presence(metadata.clientId, {
   type: PresenceType.GAME,
-  largeImageKey: metadata.images.googleLogo,
+  largeImageKey: metadata.images.main,
   startTimestamp: Date.now(),
   metadata
 });
