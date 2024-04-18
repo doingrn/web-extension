@@ -1,6 +1,7 @@
 import { sendManagerMessage } from '../content-script/utils/send-manager-message';
 import { ActivityEvent } from './activity-event';
 import type { ClearActivityEvent, RegisterActivityEvent, UpdateActivityEvent } from './activity-event/events';
+import type { ActivityMetadata } from './types/activity-metadata';
 
 export enum PresenceType {
   GAME = 0,
@@ -11,10 +12,6 @@ export enum PresenceType {
 interface PresenceButton {
   label: string;
   url: string;
-}
-
-interface Metadata {
-  supportedWebsites: RegExp[];
 }
 
 export class Presence {
@@ -29,11 +26,11 @@ export class Presence {
   public endTimestamp?: number;
 
   protected largeImageText = '🐧 doignrn | 0.0.1';
-  private metadata: Metadata;
+  private metadata: ActivityMetadata;
 
   constructor(
     public readonly clientId: string,
-    options: Partial<Presence> & { metadata: Metadata }
+    options: Partial<Presence> & { metadata: ActivityMetadata }
   ) {
     Object.assign(this, { ...options, metadata: undefined });
     this.metadata = options.metadata;
@@ -41,7 +38,8 @@ export class Presence {
     sendManagerMessage(
       new ActivityEvent<RegisterActivityEvent>('register_activity', {
         clientId: this.clientId,
-        icon: this.largeImageKey
+        icon: this.largeImageKey,
+        metadata: this.metadata
       })
     );
   }
@@ -58,12 +56,26 @@ export class Presence {
   on(event: 'update', callback: () => void) {
     if (event === 'update') {
       // if presence supports current website, run the activity
-      if (this.metadata.supportedWebsites.some((website) => website.test(location.href))) {
+      if (
+        this.metadata.supportedWebsites.some((website) => {
+          if (website instanceof RegExp) return website.test(location.href);
+          return website === location.href;
+        })
+      ) {
+        let oldUrl = '';
+
+        const interval = setInterval(() => {
+          if (oldUrl !== location.href) {
+            oldUrl = location.href;
+            callback();
+            console.log('callback')
+          }
+        }, 1000);
+
         window.addEventListener('beforeunload', () => {
           this.clearActivity();
+          clearInterval(interval);
         });
-
-        callback();
       }
     }
   }
