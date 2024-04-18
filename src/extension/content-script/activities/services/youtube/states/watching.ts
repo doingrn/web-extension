@@ -14,7 +14,12 @@ export const handleWatchingState = (presence: Presence) => {
 
     if (!videoTitle || !channelName || !video) return;
 
-    const oldTimestamp = presence.startTimestamp;
+    if (
+      presence.details === `Watching ${videoTitle}` &&
+      presence.state === channelName &&
+      (video.paused === (presence.smallImageText === 'Paused') || video.paused !== (presence.smallImageText === 'Watching'))
+    )
+      return;
 
     if (video.paused) presence.setStartTimestamp().setEndTimestamp();
     else {
@@ -28,17 +33,6 @@ export const handleWatchingState = (presence: Presence) => {
         // @ts-expect-error | format will always be one of 'mm:ss' or 'hh:mm:ss'
         .setEndTimestamp(Date.now() + timeToMs(videoDuration, durationFormat) - timeToMs(currentVideoDuration, currentDurationFormat));
     }
-
-    // check if at least one property has changed
-    if (
-      (presence.details === `Watching ${videoTitle}` &&
-        presence.state === channelName &&
-        presence.startTimestamp === oldTimestamp &&
-        video.paused &&
-        presence.smallImageText === 'Paused') ||
-      (!video.paused && presence.smallImageText === 'Watching')
-    )
-      return;
 
     presence
       .setButtons([
