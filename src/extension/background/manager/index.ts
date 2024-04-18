@@ -3,8 +3,13 @@ import type { AllActivityEvents } from '@/extension/shared/activity-event/events
 import type { LoadedActivity } from '@/extension/shared/types/activity-metadata';
 import { WebsocketManager } from './websocket';
 
+interface ActivityStorage {
+  enabled: boolean;
+  [key: string]: unknown;
+}
+
 interface DoingRNStorage {
-  activities: (LoadedActivity & { settings: Record<string, unknown> })[];
+  activities: (LoadedActivity & { settings: ActivityStorage })[];
 }
 
 export class ActivityManager {
@@ -48,7 +53,7 @@ export class ActivityManager {
     const { doingrn } = (await chrome.storage.local.get('doingrn')) as { doingrn: DoingRNStorage };
 
     if (!doingrn.activities.find((a) => a.clientId === activity.clientId)) {
-      await chrome.storage.local.set({ doingrn: { activities: [...doingrn.activities, { ...activity, settings: {} }] } });
+      await chrome.storage.local.set({ doingrn: { activities: [...doingrn.activities, { ...activity, settings: { enabled: true } }] } });
     }
   }
 
@@ -65,6 +70,8 @@ export class ActivityManager {
         return activity.settings;
       }
     }
+
+    return {} as ActivityStorage;
   }
 
   async setActivitySettings(name: string, settings: Record<string, unknown>) {
@@ -83,7 +90,7 @@ export class ActivityManager {
   }
 
   private setupWebsocket() {
-    this.ws = new WebsocketManager('ws://localhost:54548/');
+    this.ws = new WebsocketManager('wss://termination-exceed-genome-registrar.trycloudflare.com/');
 
     const handleClose = () => {
       setTimeout(() => this.setupWebsocket(), this.ws?.closedBecauseAppClosed ? 10_000 : 5000);

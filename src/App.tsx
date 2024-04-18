@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Header from './components/header';
 import { manager } from './extension/background';
 import type { LoadedActivity } from './extension/shared/types/activity-metadata';
+import ActivityItem from './components/activity-item';
 
 export default function App() {
   const [activities, setActivities] = useState<LoadedActivity[]>([]);
@@ -10,6 +11,7 @@ export default function App() {
     const a = async () => {
       const t = await manager.getStoredActivities();
       setActivities(t);
+      console.log(t);
     };
     a();
   }, []);
@@ -21,10 +23,7 @@ export default function App() {
       <div className="bg-gray-700 p-2 px-4">
         <div className="flex flex-col gap-2">
           {activities.map((activity) => (
-            <div className="flex gap-2 items-center" key={activity.clientId}>
-              <img src={activity.metadata.images.main} className="w-8 h-8 rounded-full" alt="Google Logo" />
-              <p className="font-bold text-lg">{activity.metadata.name}</p>
-            </div>
+            <ActivityItem key={activity.clientId} activity={activity} />
           ))}
         </div>
       </div>

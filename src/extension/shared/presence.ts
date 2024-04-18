@@ -1,3 +1,4 @@
+import { manager } from '../background';
 import { sendManagerMessage } from '../content-script/utils/send-manager-message';
 import { ActivityEvent } from './activity-event';
 import type { ClearActivityEvent, RegisterActivityEvent, UpdateActivityEvent } from './activity-event/events';
@@ -44,7 +45,10 @@ export class Presence {
     );
   }
 
-  send() {
+  async send() {
+    const { enabled } = await manager.getActivitySettings(this.metadata.name);
+    if (!enabled) return this.clearActivity();
+
     sendManagerMessage(
       new ActivityEvent<UpdateActivityEvent>('update_activity', {
         clientId: this.clientId,
@@ -64,11 +68,10 @@ export class Presence {
       ) {
         let oldUrl = '';
 
-        const interval = setInterval(() => {
+        const interval = setInterval(async () => {
           if (oldUrl !== location.href) {
             oldUrl = location.href;
             callback();
-            console.log('callback')
           }
         }, 1000);
 
