@@ -8,11 +8,11 @@ export const handleWatchingState = (presence: Presence) => {
     const currentVideoDuration = document.querySelector<HTMLSpanElement>('.ytp-time-current')?.textContent ?? '0:00';
     const videoDuration = document.querySelector<HTMLSpanElement>('.ytp-time-duration')?.textContent ?? '0:00';
     const videoTitle = document.querySelector<HTMLHeadingElement>('#title > h1.ytd-watch-metadata yt-formatted-string')?.textContent;
+    const video = document.querySelector<HTMLVideoElement>('#ytd-player .html5-video-container > video');
     const channel = document.querySelector<HTMLAnchorElement>('yt-formatted-string.ytd-channel-name a');
     const channelName = channel?.textContent;
-    const video = document.querySelector<HTMLVideoElement>('#ytd-player .html5-video-container > video');
 
-    if (!videoTitle || !channelName || !video) return;
+    if (!videoTitle || !channelName || !video || !currentVideoDuration || !videoDuration) return;
 
     if (
       presence.details === `Watching ${videoTitle}` &&
@@ -21,7 +21,7 @@ export const handleWatchingState = (presence: Presence) => {
     )
       return;
 
-    if (video.paused) presence.setStartTimestamp().setEndTimestamp();
+    if (video.paused && !document.hidden) presence.setStartTimestamp().setEndTimestamp();
     else {
       let durationFormat = 'mm:ss';
       let currentDurationFormat = 'mm:ss';
