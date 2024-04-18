@@ -11,6 +11,6 @@ const presence = new Presence(metadata.clientId, {
 });
 
 presence.on('update', () => {
-  if (location.href.includes('/search')) return handleSearchState(presence);
+  if (location.href.includes('/results')) return handleSearchState(presence);
   if (location.href.includes('/watch')) return handleWatchingState(presence);
 });
