@@ -1,10 +1,12 @@
 interface BaseActivityOption {
+  name: string;
   type: 'string' | 'dropdown';
 }
 
 interface ActivityStringOptions extends BaseActivityOption {
   type: 'string';
   defaultValue: string;
+  placeholder?: string;
 }
 
 interface ActivityDropdownOptions<T extends string[]> extends BaseActivityOption {

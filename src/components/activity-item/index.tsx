@@ -3,7 +3,7 @@ import type { LoadedActivity } from '@/extension/shared/types/activity-metadata'
 import { useEffect, useState } from 'react';
 import { manager } from '@/extension/background';
 
-export default function ActivityItem({ activity }: { activity: LoadedActivity }) {
+export default function ActivityItem({ activity, settingsOpen }: { activity: LoadedActivity; settingsOpen: () => void }) {
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function ActivityItem({ activity }: { activity: LoadedActivity })
           {enabled ? <Enabled /> : <Disabled />}
         </button>
         <button type="button">
-          <Settings />
+          <Settings onClick={settingsOpen} />
         </button>
       </div>
     </div>

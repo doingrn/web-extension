@@ -10,10 +10,12 @@ export const metadata = {
   },
   options: {
     watchingText: {
+      name: 'Watching Text',
       type: 'string',
       defaultValue: 'Watching {{videoName}}'
     },
     channelText: {
+      name: 'Channel Text',
       type: 'string',
       defaultValue: '{{channelName}}'
     }
