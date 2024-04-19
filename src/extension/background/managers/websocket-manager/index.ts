@@ -1,3 +1,8 @@
+import { sendManagerMessage } from '@/extension/content-script/utils/send-manager-message';
+import { manager } from '../..';
+import { ActivityEvent } from '@/extension/shared/activity-event';
+import type { UpdateUserActivityEvent } from '@/extension/shared/activity-event/events';
+
 export class WebsocketManager extends WebSocket {
   public closedBecauseAppClosed = false;
 
@@ -18,7 +23,17 @@ export class WebsocketManager extends WebSocket {
     };
 
     const handleMessage = (msg: MessageEvent) => {
-      console.log(msg);
+      try {
+        const data = JSON.parse(msg.data);
+        switch (data.t) {
+          case 'init_state':
+            manager.user.setUser(data.d.user);
+            sendManagerMessage(new ActivityEvent<UpdateUserActivityEvent>('update_user', data.d.user));
+            break;
+        }
+      } catch {
+        this.close(1000);
+      }
     };
 
     this.addEventListener('open', handleOpen);

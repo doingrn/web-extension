@@ -11,7 +11,6 @@ export default function App() {
     const a = async () => {
       const t = await manager.getStoredActivities();
       setActivities(t);
-      console.log(t);
     };
     a();
   }, []);

@@ -1,7 +1,8 @@
 import { ActivityEvent } from '@/extension/shared/activity-event';
 import type { AllActivityEvents } from '@/extension/shared/activity-event/events';
 import type { LoadedActivity } from '@/extension/shared/types/activity-metadata';
-import { WebsocketManager } from './websocket';
+import { WebsocketManager } from '../websocket-manager';
+import { UserManager } from './user-manager';
 
 interface ActivityStorage {
   enabled: boolean;
@@ -14,6 +15,7 @@ interface DoingRNStorage {
 
 export class ActivityManager {
   public loadedActivities: LoadedActivity[] = [];
+  public user = new UserManager();
 
   private ws?: WebsocketManager;
   private portName: string;
@@ -90,7 +92,7 @@ export class ActivityManager {
   }
 
   private setupWebsocket() {
-    this.ws = new WebsocketManager('wss://termination-exceed-genome-registrar.trycloudflare.com/');
+    this.ws = new WebsocketManager('wss://indianapolis-three-baseball-backup.trycloudflare.com/');
 
     const handleClose = () => {
       setTimeout(() => this.setupWebsocket(), this.ws?.closedBecauseAppClosed ? 10_000 : 5000);
