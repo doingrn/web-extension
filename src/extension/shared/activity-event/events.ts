@@ -1,6 +1,7 @@
 import type { Presence } from '@/extension/shared/presence';
 import type { ActivityEvent } from '.';
 import type { LoadedActivity } from '../types/activity-metadata';
+import type { DiscordAPIUser } from '@/extension/background/managers/activity-manager/user-manager';
 
 export interface BaseActivityEvent {
   t: AllActivityEvents['t'];
@@ -24,4 +25,8 @@ export interface ClearActivityEventPayload {
 
 export type ClearActivityEvent = ActivityEvent<{ t: 'clear_activity'; d: ClearActivityEventPayload }>;
 
-export type AllActivityEvents = UpdateActivityEvent | ClearActivityEvent | RegisterActivityEvent;
+export type UpdateUserActivityEventPayload = DiscordAPIUser;
+
+export type UpdateUserActivityEvent = ActivityEvent<{ t: 'update_user'; d: UpdateUserActivityEventPayload }>;
+
+export type AllActivityEvents = UpdateActivityEvent | ClearActivityEvent | RegisterActivityEvent | UpdateUserActivityEvent;
