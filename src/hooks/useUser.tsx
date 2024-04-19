@@ -8,7 +8,7 @@ interface UserState extends DiscordAPIUser {
 export const useUser = create<UserState>()((set) => ({
   global_name: '',
   username: '',
-  avatar_url: '',
+  avatar: null,
   id: '',
-  setUser: (user) => set({ global_name: user.global_name, username: user.username, avatar_url: user.avatar_url })
+  setUser: (user) => set({ ...user })
 }));

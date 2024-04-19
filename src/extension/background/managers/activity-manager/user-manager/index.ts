@@ -1,27 +1,24 @@
 export interface DiscordAPIUser {
   id: string;
-  avatar_url: string;
+  avatar: string | null;
   username: string;
   global_name: string;
 }
 
 export class UserManager {
-  public global_name?: string;
+  public id?: string;
+  public avatar?: string | null;
   public username?: string;
-  public avatar_url?: string;
+  public global_name?: string;
 
   constructor(user?: DiscordAPIUser) {
-    if (user) {
-      this.global_name = user.global_name;
-      this.username = user.username;
-      this.avatar_url = user.avatar_url;
-    }
+    if (user) this.setUser(user);
   }
 
   setUser(user: DiscordAPIUser) {
     this.global_name = user.global_name;
     this.username = user.username;
-    this.avatar_url = user.avatar_url;
+    this.avatar = user.avatar;
     return this;
   }
 }

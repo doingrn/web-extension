@@ -1,4 +1,5 @@
 import { useUser } from '@/hooks/useUser';
+import { getUserAvatar } from '@/lib/utils/avatar';
 
 export default function Header() {
   const user = useUser();
@@ -10,7 +11,7 @@ export default function Header() {
         <p className="text-slate-200">Conectado como @{user.global_name ?? 'unknown'}</p>
       </div>
       <div>
-        <img src="https://picsum.photos/200/200" className="w-8 h-8 rounded-full" alt="Your Discord avatar." />
+        <img src={getUserAvatar(user)} className="w-8 h-8 rounded-full" alt="Your Discord avatar." />
       </div>
     </header>
   );
