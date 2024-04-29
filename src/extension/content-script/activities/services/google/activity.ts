@@ -10,6 +10,8 @@ const presence = new Presence(metadata.clientId, {
 });
 
 presence.on('update', () => {
+  presence.reset();
+
   const queryString = parseQuerystring(location.href) as { q: string };
   if (!queryString.q) return;
 

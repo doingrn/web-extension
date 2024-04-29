@@ -54,4 +54,6 @@ export const handleWatchingState = (presence: Presence) => {
   });
 
   observer.observe(target, { childList: true, subtree: true });
+
+  return () => observer.disconnect();
 };
