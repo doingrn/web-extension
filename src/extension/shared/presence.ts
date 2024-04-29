@@ -26,9 +26,10 @@ export class Presence {
   public startTimestamp?: number;
   public endTimestamp?: number;
 
-  protected largeImageText = '🐧 doignrn | 0.0.1';
   private metadata: ActivityMetadata;
   private defaultOptions: Partial<Presence>;
+  private isLinux = navigator.userAgent.includes('Linux');
+  protected largeImageText = `${this.isLinux ? '🐧' : ''} doignrn | 0.0.1`;
 
   constructor(
     public readonly clientId: string,
