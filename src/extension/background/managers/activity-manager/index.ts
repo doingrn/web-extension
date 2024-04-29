@@ -26,26 +26,24 @@ export class ActivityManager {
     this.setupActivityStorage();
     this.setupWebsocket();
 
-    chrome.runtime.onConnect.addListener((port) => {
-      if (port.name !== this.portName) return;
+    chrome.runtime.onMessage.addListener((message) => {
+      if (message.name !== this.portName) return;
 
-      port.onMessage.addListener((request: AllActivityEvents) => {
-        console.log(request);
+      const request = message.d as AllActivityEvents;
 
-        switch (request.t) {
-          case 'register_activity':
-            if (this.loadedActivities.find((a) => a.clientId === request.d.clientId)) return;
-            this.loadedActivities.push(request.d);
-            this.addActivityToStorage(request.d);
-            break;
-          case 'update_user':
-            // TODO;
-            break;
-          default:
-            if (!this.ws || this.ws.readyState !== this.ws.OPEN) return;
-            this.ws.send(JSON.stringify(request instanceof ActivityEvent ? request.toJSON() : request));
-        }
-      });
+      switch (request.t) {
+        case 'register_activity':
+          if (this.loadedActivities.find((a) => a.clientId === request.d.clientId)) return;
+          this.loadedActivities.push(request.d);
+          this.addActivityToStorage(request.d);
+          break;
+        case 'update_user':
+          // TODO;
+          break;
+        default:
+          if (!this.ws || this.ws.readyState !== this.ws.OPEN) return;
+          this.ws.send(JSON.stringify(request instanceof ActivityEvent ? request.toJSON() : request));
+      }
     });
   }
 

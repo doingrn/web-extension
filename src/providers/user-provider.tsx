@@ -6,16 +6,16 @@ export default function UserProvider({ children }: { children: React.ReactNode }
   const user = useUser();
 
   useEffect(() => {
-    chrome.runtime.onConnect.addListener((port) => {
-      if (port.name !== 'doingrn') return;
+    chrome.runtime.onMessage.addListener((message) => {
+      if (message.name !== 'doingrn') return;
 
-      port.onMessage.addListener((request: AllActivityEvents) => {
-        switch (request.t) {
-          case 'update_user':
-            user.setUser(request.d);
-            break;
-        }
-      });
+      const request = message.d as AllActivityEvents;
+
+      switch (request.t) {
+        case 'update_user':
+          user.setUser(request.d);
+          break;
+      }
     });
   }, [user.setUser]);
 
