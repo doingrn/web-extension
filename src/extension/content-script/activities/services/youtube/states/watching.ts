@@ -1,18 +1,16 @@
 import type { Presence } from '@/extension/shared/presence';
-import { timeToMs } from '@/extension/shared/utils/time-to-ms';
+import { setVideoDuration } from '../utils/set-video-duration';
 
 export const handleWatchingState = (presence: Presence) => {
   const target = document.querySelector('ytd-app') ?? document;
 
   const observer = new MutationObserver(() => {
-    const currentVideoDuration = document.querySelector<HTMLSpanElement>('.ytp-time-current')?.textContent ?? '0:00';
-    const videoDuration = document.querySelector<HTMLSpanElement>('.ytp-time-duration')?.textContent ?? '0:00';
     const videoTitle = document.querySelector<HTMLHeadingElement>('#title > h1.ytd-watch-metadata yt-formatted-string')?.textContent;
     const video = document.querySelector<HTMLVideoElement>('#ytd-player .html5-video-container > video');
     const channel = document.querySelector<HTMLAnchorElement>('yt-formatted-string.ytd-channel-name a');
     const channelName = channel?.textContent;
 
-    if (!videoTitle || !channelName || !video || !currentVideoDuration || !videoDuration) return;
+    if (!videoTitle || !channelName || !video) return;
 
     if (
       presence.details === `Watching ${videoTitle}` &&
@@ -22,17 +20,7 @@ export const handleWatchingState = (presence: Presence) => {
       return;
 
     if (video.paused && !document.hidden) presence.setStartTimestamp().setEndTimestamp();
-    else {
-      let durationFormat = 'mm:ss';
-      let currentDurationFormat = 'mm:ss';
-      if (videoDuration.split(':').length === 3) durationFormat = 'hh:mm:ss';
-      if (currentVideoDuration.split(':').length === 3) currentDurationFormat = 'hh:mm:ss';
-
-      presence
-        .setStartTimestamp(Date.now())
-        // @ts-expect-error | format will always be one of 'mm:ss' or 'hh:mm:ss'
-        .setEndTimestamp(Date.now() + timeToMs(videoDuration, durationFormat) - timeToMs(currentVideoDuration, currentDurationFormat));
-    }
+    else setVideoDuration(presence);
 
     presence
       .setButtons([

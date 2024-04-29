@@ -68,11 +68,13 @@ export class Presence {
           return website === location.href;
         })
       ) {
+        let oldPlaybackState = '';
         let oldUrl = '';
 
         const interval = setInterval(async () => {
-          if (oldUrl !== location.href) {
+          if (oldUrl !== location.href || oldPlaybackState !== navigator.mediaSession.playbackState) {
             oldUrl = location.href;
+            oldPlaybackState = navigator.mediaSession.playbackState;
             callback();
           }
         }, 1000);
@@ -133,6 +135,7 @@ export class Presence {
   reset() {
     this.setState().setDetails().setStartTimestamp().setEndTimestamp().setButtons();
     Object.assign(this, { ...this.defaultOptions, metadata: this.metadata });
+    return this;
   }
 
   toJSON() {
@@ -150,7 +153,7 @@ export class Presence {
     };
   }
 
-  private clearActivity() {
+  clearActivity() {
     sendManagerMessage(new ActivityEvent<ClearActivityEvent>('clear_activity', { clientId: this.clientId }));
   }
 }
