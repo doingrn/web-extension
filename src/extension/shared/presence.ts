@@ -28,6 +28,7 @@ export class Presence {
 
   protected largeImageText = '🐧 doignrn | 0.0.1';
   private metadata: ActivityMetadata;
+  private defaultOptions: Partial<Presence>;
 
   constructor(
     public readonly clientId: string,
@@ -35,6 +36,7 @@ export class Presence {
   ) {
     Object.assign(this, { ...options, metadata: undefined });
     this.metadata = options.metadata;
+    this.defaultOptions = { ...options };
 
     sendManagerMessage(
       new ActivityEvent<RegisterActivityEvent>('register_activity', {
@@ -126,6 +128,11 @@ export class Presence {
   setEndTimestamp(timestamp?: number) {
     this.endTimestamp = timestamp;
     return this;
+  }
+
+  reset() {
+    this.setState().setDetails().setStartTimestamp().setEndTimestamp().setButtons();
+    Object.assign(this, { ...this.defaultOptions, metadata: this.metadata });
   }
 
   toJSON() {
