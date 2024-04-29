@@ -29,7 +29,7 @@ export class Presence {
   private metadata: ActivityMetadata;
   private defaultOptions: Partial<Presence>;
   private isLinux = navigator.userAgent.includes('Linux');
-  protected largeImageText = `${this.isLinux ? '🐧' : ''} doignrn | 0.0.1`;
+  protected largeImageText = `${this.isLinux ? '🐧 ' : ''}doignrn | 0.0.1`;
 
   constructor(
     public readonly clientId: string,
