@@ -31,7 +31,8 @@ export class WebsocketManager extends WebSocket {
             sendManagerMessage(new ActivityEvent<UpdateUserActivityEvent>('update_user', data.d.user));
             break;
         }
-      } catch {
+      } catch (e) {
+        console.log(e);
         this.close(1000);
       }
     };

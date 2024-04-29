@@ -38,6 +38,9 @@ export class ActivityManager {
             this.loadedActivities.push(request.d);
             this.addActivityToStorage(request.d);
             break;
+          case 'update_user':
+            // TODO;
+            break;
           default:
             if (!this.ws || this.ws.readyState !== this.ws.OPEN) return;
             this.ws.send(JSON.stringify(request instanceof ActivityEvent ? request.toJSON() : request));
@@ -92,10 +95,10 @@ export class ActivityManager {
   }
 
   private setupWebsocket() {
-    this.ws = new WebsocketManager('wss://indianapolis-three-baseball-backup.trycloudflare.com/');
+    this.ws = new WebsocketManager('ws://localhost:5454/doingrn');
 
     const handleClose = () => {
-      setTimeout(() => this.setupWebsocket(), this.ws?.closedBecauseAppClosed ? 10_000 : 5000);
+      setTimeout(() => this.setupWebsocket(), this.ws?.closedBecauseAppClosed ? 10_000 : 5_000);
     };
 
     this.ws.addEventListener('close', handleClose);
