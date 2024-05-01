@@ -2,6 +2,7 @@ import { Presence, PresenceType } from '@/extension/shared/presence';
 import { metadata } from './metadata';
 import { handleSearchState } from './states/searching';
 import { handleWatchingState } from './states/watching';
+import { handleBrowsingState } from './states/browsing';
 
 const presence = new Presence(metadata.clientId, {
   type: PresenceType.WATCHING,
@@ -16,10 +17,21 @@ presence.on('update', () => {
   cleanup?.();
   presence.reset();
 
-  if (location.href.includes('/results')) return handleSearchState(presence);
+  switch (location.pathname) {
+    case '/':
+      handleBrowsingState(presence);
+      break;
 
-  if (location.href.includes('/watch')) {
-    cleanup = handleWatchingState(presence);
-    return;
+    case '/results':
+      handleSearchState(presence);
+      break;
+
+    case '/watch':
+      cleanup = handleWatchingState(presence);
+      break;
+
+    default: {
+      break;
+    }
   }
 });
