@@ -1,5 +1,5 @@
-import type { Presence } from '@/extension/shared/presence';
-import { timeToMs } from '@/extension/shared/utils/time-to-ms';
+import type { Presence } from '@/shared/presence';
+import { timeToMs } from '@/shared/utils/time-to-ms';
 
 export const setVideoDuration = (presence: Presence) => {
   const currentVideoDuration = document.querySelector<HTMLSpanElement>('.ytp-time-current')?.textContent;

@@ -1,4 +1,4 @@
-import type { Presence } from '@/extension/shared/presence';
+import type { Presence } from '@/shared/presence';
 import { setVideoDuration } from '../utils/set-video-duration';
 
 export const handleWatchingState = (presence: Presence) => {

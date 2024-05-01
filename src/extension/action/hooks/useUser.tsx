@@ -1,4 +1,4 @@
-import type { DiscordAPIUser } from '@/extension/background/managers/activity-manager/user-manager';
+import type { DiscordAPIUser } from '@/background/managers/activity-manager/user-manager';
 import { create } from 'zustand';
 
 interface UserState extends DiscordAPIUser {

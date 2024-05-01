@@ -1,6 +1,6 @@
-import { ActivityEvent } from '@/extension/shared/activity-event';
-import type { AllActivityEvents } from '@/extension/shared/activity-event/events';
-import type { LoadedActivity } from '@/extension/shared/types/activity-metadata';
+import { ActivityEvent } from '@/shared/activity-event';
+import type { AllActivityEvents } from '@/shared/activity-event/events';
+import type { LoadedActivity } from '@/shared/types/activity-metadata';
 import { WebsocketManager } from '../websocket-manager';
 import { UserManager } from './user-manager';
 

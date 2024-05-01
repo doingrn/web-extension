@@ -1,7 +1,7 @@
-import { sendManagerMessage } from '@/extension/content-script/utils/send-manager-message';
+import { sendManagerMessage } from '@/content-script/utils/send-manager-message';
+import { ActivityEvent } from '@/shared/activity-event';
+import type { UpdateUserActivityEvent } from '@/shared/activity-event/events';
 import { manager } from '../..';
-import { ActivityEvent } from '@/extension/shared/activity-event';
-import type { UpdateUserActivityEvent } from '@/extension/shared/activity-event/events';
 
 export class WebsocketManager extends WebSocket {
   public closedBecauseAppClosed = false;

@@ -1,5 +1,5 @@
-import { useUser } from '@/hooks/useUser';
-import { getUserAvatar } from '@/lib/utils/avatar';
+import { useUser } from '../hooks/useUser';
+import { getUserAvatar } from '../lib/utils/avatar';
 
 export default function Header() {
   const user = useUser();

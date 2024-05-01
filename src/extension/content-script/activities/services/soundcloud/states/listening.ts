@@ -1,4 +1,4 @@
-import type { Presence } from '@/extension/shared/presence';
+import type { Presence } from '@/shared/presence';
 import { setSongDuration } from '../utils/set-song-duration';
 
 export const handleListeningState = (presence: Presence) => {

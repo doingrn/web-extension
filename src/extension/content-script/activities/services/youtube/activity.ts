@@ -1,8 +1,8 @@
-import { Presence, PresenceType } from '@/extension/shared/presence';
+import { Presence, PresenceType } from '@/shared/presence';
 import { metadata } from './metadata';
+import { handleBrowsingState } from './states/browsing';
 import { handleSearchState } from './states/searching';
 import { handleWatchingState } from './states/watching';
-import { handleBrowsingState } from './states/browsing';
 
 const presence = new Presence(metadata.clientId, {
   type: PresenceType.WATCHING,

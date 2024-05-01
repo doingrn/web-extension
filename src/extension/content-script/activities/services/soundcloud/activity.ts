@@ -1,4 +1,4 @@
-import { Presence, PresenceType } from '@/extension/shared/presence';
+import { Presence, PresenceType } from '@/shared/presence';
 import { metadata } from './metadata';
 import { handleListeningState } from './states/listening';
 import { handleSearchState } from './states/searching';

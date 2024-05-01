@@ -1,4 +1,4 @@
-import type { ActivityMetadata } from '@/extension/shared/types/activity-metadata';
+import type { ActivityMetadata } from '@/shared/types/activity-metadata';
 
 export const metadata = {
   name: 'YouTube',

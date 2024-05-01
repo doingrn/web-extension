@@ -1,5 +1,5 @@
-import { manager } from '@/extension/background';
-import type { LoadedActivity } from '@/extension/shared/types/activity-metadata';
+import { manager } from '@/background';
+import type { LoadedActivity } from '@/shared/types/activity-metadata';
 import { ArrowLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
 

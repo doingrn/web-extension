@@ -1,9 +1,9 @@
+import { manager } from '@/background';
+import type { LoadedActivity } from '@/shared/types/activity-metadata';
 import { useEffect, useState } from 'react';
-import Header from './components/header';
-import { manager } from './extension/background';
-import type { LoadedActivity } from './extension/shared/types/activity-metadata';
 import ActivityItem from './components/activity-item';
 import ActivitySettings from './components/activity-item/activity-settings';
+import Header from './components/header';
 
 export default function App() {
   const [activities, setActivities] = useState<LoadedActivity[]>([]);

@@ -1,5 +1,5 @@
-import { Presence, PresenceType } from '@/extension/shared/presence';
-import { parseQuerystring } from '@/extension/shared/utils/querystring';
+import { Presence, PresenceType } from '@/shared/presence';
+import { parseQuerystring } from '@/shared/utils/querystring';
 import { metadata } from './metadata';
 
 const presence = new Presence(metadata.clientId, {

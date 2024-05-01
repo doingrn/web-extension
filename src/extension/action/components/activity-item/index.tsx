@@ -1,7 +1,7 @@
-import { Settings, ToggleLeft as Disabled, ToggleRight as Enabled } from 'lucide-react';
-import type { LoadedActivity } from '@/extension/shared/types/activity-metadata';
+import { manager } from '@/background';
+import type { LoadedActivity } from '@/shared/types/activity-metadata';
+import { ToggleLeft as Disabled, ToggleRight as Enabled, Settings } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { manager } from '@/extension/background';
 
 export default function ActivityItem({ activity, settingsOpen }: { activity: LoadedActivity; settingsOpen: () => void }) {
   const [enabled, setEnabled] = useState(false);

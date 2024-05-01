@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "biome check .",
-    "format": "biome check --apply .",
+    "format": "biome check --apply-unsafe .",
     "preview": "vite preview"
   },
   "keywords": [],
@@ -15,26 +15,25 @@
   "license": "MIT",
   "dependencies": {
     "@tailwindcss/vite": "4.0.0-alpha.14",
-    "clsx": "^2.1.0",
-    "lucide-react": "^0.371.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.2.2",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.376.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.3.0",
     "tailwindcss": "4.0.0-alpha.14",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.6.4",
+    "@biomejs/biome": "^1.7.2",
     "@crxjs/vite-plugin": "2.0.0-beta.23",
-    "@types/chrome": "^0.0.266",
-    "@types/firefox-webext-browser": "^120.0.3",
+    "@types/chrome": "^0.0.267",
     "@types/node": "^20.12.7",
-    "@types/react": "^18.2.78",
-    "@types/react-dom": "^18.2.25",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "typescript": "^5.4.5",
-    "vite": "^5.2.8",
+    "vite": "^5.2.10",
     "vite-tsconfig-paths": "^4.3.2"
   },
-  "packageManager": "pnpm@8.15.6"
+  "packageManager": "pnpm@9.1.0-0+sha512.568e95e38592215a03fa2cb02a58b67c6452e51b176d9941d546a59a471c42e2b4c2428bf286addcbe4e2dec98e682e2df0fa93a5082cf3493afc496affd8ffb"
 }

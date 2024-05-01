@@ -1,4 +1,4 @@
-import type { DiscordAPIUser } from '@/extension/background/managers/activity-manager/user-manager';
+import type { DiscordAPIUser } from '@/background/managers/activity-manager/user-manager';
 
 function getDefaultAvatar(userId: string) {
   const index = Number(BigInt(userId) >> 22n) % 6;

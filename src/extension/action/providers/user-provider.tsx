@@ -1,6 +1,6 @@
-import type { AllActivityEvents } from '@/extension/shared/activity-event/events';
-import { useUser } from '@/hooks/useUser';
+import type { AllActivityEvents } from '@/shared/activity-event/events';
 import { useEffect } from 'react';
+import { useUser } from '../hooks/useUser';
 
 export default function UserProvider({ children }: { children: React.ReactNode }) {
   const user = useUser();

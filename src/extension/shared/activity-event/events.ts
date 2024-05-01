@@ -1,7 +1,7 @@
-import type { Presence } from '@/extension/shared/presence';
+import type { DiscordAPIUser } from '@/background/managers/activity-manager/user-manager';
+import type { Presence } from '@/shared/presence';
 import type { ActivityEvent } from '.';
 import type { LoadedActivity } from '../types/activity-metadata';
-import type { DiscordAPIUser } from '@/extension/background/managers/activity-manager/user-manager';
 
 export interface BaseActivityEvent {
   t: AllActivityEvents['t'];

@@ -1,5 +1,5 @@
-import type { Presence } from '@/extension/shared/presence';
-import { parseQuerystring } from '@/extension/shared/utils/querystring';
+import type { Presence } from '@/shared/presence';
+import { parseQuerystring } from '@/shared/utils/querystring';
 
 export const handleSearchState = (presence: Presence) => {
   const query = parseQuerystring(location.href) as { search_query: string };

@@ -6,7 +6,11 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/extension/*"],
+      "@/action": ["./src/extension/action"],
+      "@/background": ["./src/extension/background"],
+      "@/content-script": ["./src/extension/content-script"],
+      "@/shared": ["./src/extension/shared"]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",
