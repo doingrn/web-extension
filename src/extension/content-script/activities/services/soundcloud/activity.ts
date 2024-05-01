@@ -18,5 +18,13 @@ presence.on('update', () => {
     return;
   }
 
-  if (location.href.includes('/search')) return handleSearchState(presence);
+  switch (location.pathname) {
+    case '/search':
+      handleSearchState(presence);
+      break;
+
+    default: {
+      break;
+    }
+  }
 });
